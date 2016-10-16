@@ -1,0 +1,37 @@
+package rewardsNStats;
+
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+
+public class Word {
+	
+	private SimpleStringProperty word;
+	private SimpleIntegerProperty correct;
+	private SimpleIntegerProperty faulted;
+	private SimpleIntegerProperty failed;
+	
+	
+	Word(String word, int correct, int faulted, int failed){
+		this.word.set(word);
+		this.correct.set(correct);
+		this.faulted.set(faulted);
+		this.failed.set(failed);
+	}
+	
+	
+	public SimpleStringProperty getWord(){
+		return word;
+	}
+	
+	public SimpleIntegerProperty getCorrect(){
+		return correct;
+	}
+	public SimpleIntegerProperty getFaulted(){
+		return faulted;
+	}
+	
+	public SimpleIntegerProperty getFailed(){
+		return failed;
+	}
+
+}

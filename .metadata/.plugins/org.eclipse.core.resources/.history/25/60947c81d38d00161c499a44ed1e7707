@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Bloom?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Control">
+  <tabs>
+    <Tab id="main" styleClass="application.css" text="Main Menu">
+      <content>
+        <AnchorPane minHeight="0.0" minWidth="0.0" opacity="0.76" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: black;">
+               <children>
+                  <Text fill="#f2e2e2" fontSmoothingType="LCD" layoutX="131.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome to VOXSPELL" textAlignment="JUSTIFY" textOrigin="CENTER" wrappingWidth="342.3779296875">
+                     <font>
+                        <Font size="30.0" />
+                     </font>
+                  </Text>
+                  <Text fill="#fce6e6" layoutX="205.0" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select your theme" textOrigin="CENTER">
+                     <font>
+                        <Font size="21.0" />
+                     </font>
+                  </Text>
+                  <ComboBox id="themeCombo" fx:id="themeCombo" blendMode="HARD_LIGHT" layoutX="227.0" layoutY="171.0" opacity="0.46" prefWidth="150.0" promptText="Theme" style="-fx-background-color: White;" />
+                  <Button blendMode="HARD_LIGHT" layoutX="246.0" layoutY="220.0" mnemonicParsing="false" onAction="#selectTheme" onMouseClicked="#ChangeBackGround" opacity="0.49" text="Select Theme" textAlignment="JUSTIFY" underline="true" wrapText="true" />
+               </children>
+               <effect>
+                  <Bloom />
+               </effect></AnchorPane>
+      </content>
+    </Tab>
+    <Tab id="spelling" text="Spelling Quiz">
+      <content>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <ComboBox id="spellingcombo" fx:id="spellingcombo" layoutX="225.0" layoutY="14.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="29.0" prefWidth="150.0" promptText="Select Level" AnchorPane.bottomAnchor="324.0" AnchorPane.leftAnchor="225.0" AnchorPane.rightAnchor="225.0" AnchorPane.topAnchor="14.0" />
+                  <Button layoutX="253.0" layoutY="51.0" mnemonicParsing="false" onAction="#startQuiz" text="Start Quiz" AnchorPane.leftAnchor="253.0" AnchorPane.rightAnchor="253.0" AnchorPane.topAnchor="51.0" />
+                  <Text layoutX="189.0" layoutY="140.0" strokeType="OUTSIDE" strokeWidth="0.0" text="New Spelling Quiz" textOrigin="CENTER" wrappingWidth="221.65625" AnchorPane.leftAnchor="189.0" AnchorPane.rightAnchor="189.34375">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Text>
+                  <TextField layoutY="329.0" prefHeight="37.0" prefWidth="600.0" />
+                  <Label layoutX="205.0" layoutY="168.0" text="Words correct on first try 0/0" />
+                  <Button layoutX="248.0" layoutY="191.0" mnemonicParsing="false" onAction="#repeatWord" text="Repeat Word" />
+                  <ProgressIndicator layoutX="551.0" layoutY="6.0" progress="0.0" />
+               </children></AnchorPane>
+      </content>
+    </Tab>
+      <Tab id="review" text="Review Quiz">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <ComboBox id="reviewCombo" fx:id="reviewCombo" layoutX="225.0" layoutY="17.0" prefWidth="150.0" promptText="Select Level" />
+                  <Button layoutX="250.0" layoutY="53.0" mnemonicParsing="false" onAction="#startReview" text="Start Review" AnchorPane.leftAnchor="250.0" AnchorPane.rightAnchor="249.0" />
+                  <ProgressIndicator layoutX="558.0" layoutY="7.0" progress="0.0" />
+                  <Text layoutX="227.0" layoutY="191.0" strokeType="OUTSIDE" strokeWidth="0.0" text="New Review" AnchorPane.leftAnchor="227.0" AnchorPane.rightAnchor="226.31640625">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Text>
+                  <TextField layoutX="14.0" layoutY="327.0" prefHeight="33.0" prefWidth="581.0" />
+                  <Button layoutX="252.0" layoutY="248.0" mnemonicParsing="false" onAction="#repeatWord" prefHeight="20.0" prefWidth="103.0" text="Repeat Word" />
+                  <Label layoutX="236.0" layoutY="204.0" text="Words corrected: 0/0" />
+               </children></AnchorPane>
+        </content>
+      </Tab>
+      <Tab id="stats"  text="Statistics">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <Button layoutX="15.0" layoutY="169.0" mnemonicParsing="false" onAction="#calculateStats" prefHeight="26.0" prefWidth="128.0" text="Calculate Stats" />
+                  <ComboBox id="statsCombo" fx:id="statsCombo" layoutX="14.0" layoutY="127.0" prefHeight="28.0" prefWidth="129.0" promptText="Select stats" />
+                  <PieChart layoutX="167.0" layoutY="13.0" prefHeight="330.0" prefWidth="413.0" />
+               </children></AnchorPane>
+        </content>
+      </Tab>
+      <Tab id="options" text="Options">
+        <content>
+          <AnchorPane fx:id="optionsCombo" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <Button layoutX="242.0" layoutY="66.0" mnemonicParsing="false" onAction="#clearStats" text="Clear Statistics" AnchorPane.leftAnchor="242.0" AnchorPane.rightAnchor="242.0" />
+                  <ComboBox id="optionsCombo" fx:id="optionsCombo" layoutX="225.0" layoutY="118.0" prefWidth="150.0" promptText="Change Voice" />
+                  <Button layoutX="246.0" layoutY="164.0" mnemonicParsing="false" onAction="#changeVoice" text="Change Voice" AnchorPane.leftAnchor="246.0" AnchorPane.rightAnchor="246.0" />
+               </children></AnchorPane>
+        </content>
+      </Tab>
+  </tabs>
+</TabPane>

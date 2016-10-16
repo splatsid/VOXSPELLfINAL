@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Move element &apos;scenebuilder.fxml&apos; to &apos;Voxspell/src/quiz&apos;&#x0A;- Original project: &apos;voxspell4&apos;&#x0A;- Destination element: &apos;Voxspell/src/quiz&apos;&#x0A;- Original element: &apos;scenebuilder.fxml&apos;&#x0A;- Update references to refactored element" description="Move file" destination="=Voxspell/src&lt;quiz" element1="src/application/scenebuilder.fxml" files="1" flags="589830" folders="0" id="org.eclipse.jdt.ui.move" policy="org.eclipse.jdt.ui.moveResources" qualified="false" references="true" stamp="1475978846322" units="0" version="1.0"/>
+</session>

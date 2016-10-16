@@ -1,0 +1,50 @@
+package rewardsNStats;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class Stats implements Serializable {
+	
+	public ArrayList<Integer> readStats() throws FileNotFoundException {
+		int size = 0;
+		ArrayList<Integer> stats = new ArrayList<Integer>();
+		ArrayList<File> file = new ArrayList<File>();
+		correct.clear();
+		faulted.clear();
+		failed.clear();
+		file.add(new File("correct.txt"));
+		file.add(new File("Faulted.txt"));
+		file.add(new File("Failed.txt"));
+		
+
+				Scanner scan = new Scanner(new File("correct.txt"));
+				while(scan.hasNextLine()){
+				correct.add(scan.nextLine());
+				size++;
+				}
+				stats.add(size);
+				size = 0;
+				
+				 scan = new Scanner(new File("Faulted.txt"));
+				 while(scan.hasNextLine()){
+						faulted.add(scan.nextLine());
+						size++;
+						}
+						stats.add(size);
+						size = 0;
+				scan = new Scanner(new File("Failed.txt"));
+				while(scan.hasNextLine()){
+					failed.add(scan.nextLine());
+					size++;
+					}
+					stats.add(size);
+		scan.close();
+	
+		return stats;
+
+	}
+
+}

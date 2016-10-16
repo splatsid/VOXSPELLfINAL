@@ -1,0 +1,216 @@
+package quiz;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+import javafx.concurrent.Service;
+import javafx.concurrent.Task;
+import javafx.event.EventHandler;
+import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+
+public class ReviewQuiz extends Quiz {
+	protected TextField _textfield;
+	protected int numrevwords;
+
+	public ReviewQuiz(File f,TextField tf) {
+		super(f, tf);
+		_textfield=tf;
+		CreateActionListener();
+		correctness = false;
+		count=0;
+		numrevwords=0;
+		errors = 0;
+		currError = 0;
+		// TODO Auto-generated constructor stub
+	}
+
+
+	// for review quiz purposes
+	@Override
+	public boolean checkCorrectness(String actual, String expected) throws Exception{
+		String text;
+		if (!(actual.equals(expected)) && this.currError == 1){
+			text = "bash -c echo Try again|festival --tts";
+			this.count++;
+			Service<Void>speech = new Service<Void>(){
+
+				@Override
+				protected Task<Void> createTask() {
+					return new Task<Void>(){
+						protected Void call() throws Exception {
+
+							ProcessBuilder builder = new ProcessBuilder(text);
+							try {
+								Process process = builder.start();
+							} catch (IOException e) {
+								e.getMessage();
+							}
+							return null;	
+						}
+					};
+				}
+
+			};
+			speech.restart();
+			return false;
+		}else {
+			return super.checkCorrectness(actual, expected);
+		}	
+
+	}
+
+	public ArrayList<String> getreviewwordsforlevel(int levelnum){
+		ArrayList<String> allpossiblerevwords = new ArrayList<String>();
+		try {
+			Scanner scanner = new Scanner(f);
+
+			int linenumber =0;
+			while (scanner.hasNextLine()) {
+				String line = scanner.nextLine();
+				allpossiblerevwords.add(line);
+			}
+
+			return allpossiblerevwords;
+		} catch(FileNotFoundException e) { 
+			return null;
+		}
+	}
+
+
+	public void CreateActionListener(){
+
+		_textfield.setOnKeyPressed(new EventHandler<KeyEvent>(){
+
+			@Override
+			public void handle(KeyEvent ke){
+				if(ke.getCode().equals(KeyCode.ENTER)){
+
+					String input = _textfield.getText();
+					if(input.isEmpty()){
+						sayText("Please input a word");
+
+					}else{
+						try {
+							correctness = checkCorrectness(input,currentWord);		//NEED TO DOUBLE CHECK IF IT GOES TO THE CHECK CORRECTNESS METHOD IN THIS CLASS.
+							if(currError == 0){			//Seeing if word is correct in the first try.
+								if(correctness){
+									System.out.println("Correctonfirstgo");
+									try {
+										f = new File("reviewlevel"+level+".txt");		
+										rnw = new ReadNWrite(f);
+										System.out.println("Need to delete word from reviewlevelX.txt.");
+									} catch (IOException e1) {
+										// TODO Auto-generated catch block
+										e1.printStackTrace();
+									}
+								}else{
+									currError = 1;
+									System.out.println("Wrong on firstgo");
+								}
+							}else{			//Seeing if the word is correct in the second try.
+								if(correctness){
+									currError = 0;	
+									System.out.println("Right on second go"); 
+									try {
+										f = new File("Faulted.txt");	
+										rnw = new ReadNWrite(f);
+										rnw.writeToFile(currentWord);
+										f = new File("reviewlevel"+level+".txt");	
+										rnw = new ReadNWrite(f);			//
+										System.out.println("Need to delete word from reviewlevelX.txt.");
+						
+									} catch (IOException e1) {
+										// TODO Auto-generated catch block
+										e1.printStackTrace();
+									}
+								}else{
+									currError = 0;
+									System.out.println("Wrong in second go");	//ADD THE FOLLOWING TO THE OTHER FILES		
+									try {
+										f = new File("Failed.txt");	
+										rnw = new ReadNWrite(f);
+										rnw.writeToFile(currentWord);		
+								
+										sayText(currentWord);		//NEED TO MAKE FESTIVAL SPELL IT OUT - PERHAPS MAKE THE SPEED SLOWER?
+										
+									} catch (IOException e1) {
+										// TODO Auto-generated catch block
+										e1.printStackTrace();
+									}
+								}
+							}
+
+							if(getCount() < numrevwords){		//Go to next word.
+								_textfield.clear();
+								thetestwords=giveWords();
+								startspellingtest(thetestwords,numrevwords);
+							}else{			//If there's no next words return to main menu.
+								System.out.println("End of quiz");
+								//Create pop up depending on how many are correct or not.
+
+								int correct = 10 - errors;
+								//	popupendoflevel(correct);
+							}
+
+
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+
+					}
+				}
+			}
+
+
+		});
+	}
+
+
+	public void startreviewtest(ArrayList<String> thetestwords,int numberofreviewwords) {
+		numrevwords = numberofreviewwords;
+		currentWord = thetestwords.get(count);
+		try {
+			if (currentWord.contains("'")){
+				sayText(currentWord + "with an apostrophe");
+			}else{
+				sayText(currentWord);
+			}
+		}catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+}

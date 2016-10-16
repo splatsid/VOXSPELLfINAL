@@ -1,0 +1,111 @@
+package quiz;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class ReadNWrite {
+	public ArrayList<String> chooselevelwordlist(String level){
+		File f = new File("NZCER-spelling-lists.txt");
+		ArrayList <String> wordlist = new ArrayList<String>();
+		if (level.equals("%Level 1")){
+			Scanner input = new Scanner(System.in);
+			try {
+				input = new Scanner(f);
+				while (input.hasNextLine()) {
+					String line = input.nextLine();
+					if(line.equals("%Level 2")){
+						break;
+					}
+					if(line.equals("%Level 1")){
+						continue;
+					}
+					wordlist.add(line);
+					System.out.println(line);
+				}
+				input.close();
+
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			return wordlist;
+		}else{
+			String[] splitarray = level.split("\\s+");
+			int levelnum = Integer.parseInt(splitarray[1]);
+			Scanner input = new Scanner(System.in);
+			try {
+				input = new Scanner(f);
+				while (input.hasNextLine()) {
+					String line = input.nextLine();
+					if(line.equals(level)){
+						while (input.hasNextLine()) {
+							String wordline = input.nextLine();
+							int l = levelnum+1;
+							if(wordline.equals("%Level " + l)){
+								break;
+							}
+							wordlist.add(wordline);
+						}
+					}
+				}
+				input.close();
+
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			return wordlist;
+
+		}
+	}
+
+
+
+	public ArrayList<Integer>choosewords(ArrayList<String> wordlist){ 
+		int COUNTER=0;
+		int	INDEX=0;
+		int numberposition;
+		ArrayList<Integer> linenumbers = new ArrayList<Integer>();
+		while (INDEX < 10){
+			int randomNum =(int)(Math.random() * ((wordlist.size()-1) + 1));
+			boolean addnumber = true;
+			numberposition=randomNum;		
+
+			for (int a : linenumbers){
+				if(a == numberposition) {
+					addnumber=false;
+				}
+			}
+
+			if (addnumber== true){
+				linenumbers.add(numberposition);
+				INDEX=INDEX+1;
+			}
+
+			COUNTER=COUNTER+1;
+		}
+		return linenumbers;
+	}
+	
+	
+	public void writeToFile(File file,String word){
+		try { 
+			// writes to appropriate text files for 
+			FileWriter writetoFile = new FileWriter(file, true);
+			BufferedWriter writer = new BufferedWriter(writetoFile);
+			PrintWriter out = new PrintWriter(writer);
+			out.println(word);
+			out.close();
+		} catch (IOException e) {
+			e.getMessage();
+		}
+	}
+
+}

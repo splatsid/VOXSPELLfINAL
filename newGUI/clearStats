@@ -1,0 +1,6 @@
+#!/bin/bash
+
+>stats.txt
+>correct.txt
+>Failed.txt
+>Faulted.txt
