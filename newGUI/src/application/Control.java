@@ -186,6 +186,7 @@ public class Control extends Application {
 	void clearStats(ActionEvent event) {
 		Stats.clearStats();
 		clearReview();
+		caption.setVisible(false);
 	}
 	
 	@FXML
@@ -415,6 +416,8 @@ public class Control extends Application {
 		);
 		quizfile = filechooser.showOpenDialog(new Stage());
 		if (quizfile != null) {
+			
+			//Clears the current list, and includes the new path of the file into the list
 			PrintWriter print = new PrintWriter(new FileWriter(new File("wordlists/currentList")));
 			print.close();
 			ReadNWrite r = new ReadNWrite(new File("wordlists/currentList"));
@@ -424,6 +427,9 @@ public class Control extends Application {
 			quiz = null;
 			startQuiz.setDisable(false);
 			clearReview();
+			caption.setVisible(false);
+			
+			
 			//Disables combo boxes if the file is not the default file
 			if(!quizfile.getName().equals("NZCER-spelling-lists.txt")){
 			spellingcombo.setDisable(true);

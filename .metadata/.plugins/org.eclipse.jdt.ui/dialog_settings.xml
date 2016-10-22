@@ -54,7 +54,7 @@
 	</section>
 	<section name="FatJarPackageWizard">
 		<item value="/home/sid/Project3" key="FatJarPackageWizardPage.ANTSCRIPT_LOCATION"/>
-		<item value="Main (2) - newGUI" key="FatJarPackageWizardPage.LAUNCH_CONFIGURATION_SELECTION_NAME"/>
+		<item value="Control - newGUI" key="FatJarPackageWizardPage.LAUNCH_CONFIGURATION_SELECTION_NAME"/>
 		<item value="/home/sid/Desktop/voxspellA4.jar" key="FatJarPackageWizardPage.DESTINATION_PATH_SELECTION"/>
 		<item value="false" key="FatJarPackageWizardPage.ANTSCRIPT_SAVE"/>
 		<item value="1" key="FatJarPackageWizardPage.LIBRARY_HANDLING"/>
@@ -62,6 +62,7 @@
 			<item value="/home/sid/Desktop/voxspellA4.jar"/>
 		</list>
 		<list key="FatJarPackageWizardPage.ANTSCRIPT_LOCATION_HISTORY">
+			<item value="/home/sid/Project3.xml"/>
 			<item value=".xml"/>
 		</list>
 	</section>
