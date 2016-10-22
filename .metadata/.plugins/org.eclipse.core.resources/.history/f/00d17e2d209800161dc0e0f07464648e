@@ -37,7 +37,6 @@ public abstract class Quiz {
 	 * want to have distinct features about them, and other things as such.
 	 * It's responsibilities are to be able to be able to conduct a 10 word quiz and distinguish between correct and incorrect input and output
 	 * and also be able to write to the statistics files.
-	 * This class is abstract for further implementations of the quiz mode in the future.
 	 */
 	
 	protected int count = 0;
@@ -63,9 +62,7 @@ public abstract class Quiz {
 	protected boolean complete = false;
 	
 	
-	/*
-	 * Constructor for the Quiz class.
-	 */
+	//Constructor for the Quiz class.
 	public Quiz(File f, TextField tf, Integer level,Label tallylabel) {
 		this.file = f;
 		this.f = f;
@@ -82,9 +79,7 @@ public abstract class Quiz {
 
 	
 	
-	/*
-	 *  Says speech inside a background thread, can change on voices depending on what voice was set.
-	 */
+	// Says speech inside a background thread, can change on voices depending on what voice was set.
 	public void sayText(String text) throws Exception {
 		ReadNWrite fest = new ReadNWrite(new File("changefestivalvoice.scm"));
 		Service<Void> speech = new Service<Void>() {
@@ -134,7 +129,7 @@ public abstract class Quiz {
 		_textfield.disableProperty().bind(speech.runningProperty());
 	}
 
-	// Uses the ReadNWrite class to load words and then read them
+	// Reads words
 	public void loadWords(String level) {
 		if(file.getName().equals("NZCER-spelling-lists.txt")){
 		ReadNWrite wordlist = new ReadNWrite(file);
@@ -182,7 +177,7 @@ public abstract class Quiz {
 			isRight = true;
 		}
 
-		// Background thread so that it reads out the voices depending on 
+
 		Service<Void> speech = new Service<Void>() {
 
 			@Override
@@ -231,11 +226,7 @@ public abstract class Quiz {
 		return this.errors;
 	}
 
-	/*
-	 * The spelling quiz implementation throughout the course of the quiz, the textfield acts as a controller for the quiz.
-	 * When the quiz is started then it reads input accordingly, if not then the textfield does nothing.
-	 */
-
+	//The spelling quiz implementation throughout the course of the quiz.
 	public void CreateActionListener() {
 
 		_textfield.setOnKeyPressed(new EventHandler<KeyEvent>() {
@@ -243,9 +234,7 @@ public abstract class Quiz {
 			@Override
 			public void handle(KeyEvent ke) {
 				if (ke.getCode().equals(KeyCode.ENTER)) {
-					// Gets the input from the textfield
-					
-					//If the input is empty, or the quiz is complete then it prompts to start a new quiz.
+				
 					String input = _textfield.getText();
 					t.setText(input);
 					if (input.isEmpty() && complete) {
@@ -289,28 +278,25 @@ public abstract class Quiz {
 									currentprogresstally = count - errors;
 									tally.setText("Current Tally correct on first go: " + currentprogresstally + "/" + count);
 
-									
-								} else { // If the word is wrong on the second try, then it is written to a review file and is marked incorrect.
+								} else {
 									currError = 0;
 									Stats.addtoFailed(currentWord);
 									if(f.getName().equals("NZCER-spelling-lists.txt")){
-										file = new File("review/.reviewlevel" + level + ".txt"); // is
-										currentprogresstally = count - errors;
-										tally.setText("Current Tally correct on first go: " + currentprogresstally + "/" + count);
-										rnw = new ReadNWrite(file);
-										rnw.writeToFile(currentWord);
+									file = new File("reviewfiles/.reviewlevel" + level + ".txt"); // is
+									currentprogresstally = count - errors;
+									tally.setText("Current Tally correct on first go: " + currentprogresstally + "/" + count);
+									rnw = new ReadNWrite(file);
+									rnw.writeToFile(currentWord);
 									} else {
-										file = new File("review/.generalreview.txt");
+										file = new File("reviewfiles/.generalreview.txt");
 										currentprogresstally = count - errors;
 										tally.setText("Current Tally correct on first go: " + currentprogresstally + "/" + count);
 										rnw = new ReadNWrite(file);
 										rnw.writeToFile(currentWord);
-										
-										
 									}
 								}
 							}
-							// If the count is less than 10 go to the next word, otherwise end the quiz and set status to complete.
+
 							if (getCount() < 10) { // Go to next word.
 								_textfield.clear();
 								thetestwords = giveWords();
@@ -360,47 +346,32 @@ public abstract class Quiz {
 		}
 	}
 
-	//Returns the current word
+	
 	public String currentWord() {
 		return this.currentWord;
 	}
 
-	//Takes control of textfields and comboboxes.
-	public void giveComboNShow(ComboBox<String> c, Text t) {
+	public void giveComboNShow(ComboBox c, Text t) {
 		this.x = c;
 		this.t = t;
 	}
-	
-	/*
-	 * Returns the number of correct words
-	 */
+
 	public String numbercorrect() {
 		return String.valueOf(getCount() - errors);
 	}
-	/*
-	 * Able to set the voice with this method
-	 */
+	
 	public void setVoice(String voice){
 		this.voice = voice;
 	}
 	
-	/*
-	 * shows progress.
-	 */
 	public void setProg(ProgressIndicator prog){
 		this.p = prog;
 	}
 	
-	/*
-	 * returns the status of complete
-	 */
 	public boolean isComplete(){
 		return complete;
 	}
 	
-	/*
-	 * Gives control of start button so it can disable it.
-	 */
 	public void setStart(Button start){
 		this.start  = start;
 	}

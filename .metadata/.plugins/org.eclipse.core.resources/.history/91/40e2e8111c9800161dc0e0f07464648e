@@ -162,8 +162,7 @@ public class Control extends Application {
 }
 
 	/*
-	 * This method changes the voice from the regular kal_diphone to the New Zealand voice.
-	 * Enables the start quiz button so that the quiz can be started again.
+	 * This method changes the voice from the regular kal_diphone to the new zealand voice.
 	 */
 	@FXML
 	void changeVoice(ActionEvent event) {
@@ -174,8 +173,7 @@ public class Control extends Application {
 		} else {
 			voice = "kal_diphone";
 		}
-		startQuiz.setDisable(false);
-		review.setDisable(false);
+
 	}
 	
 	/*
@@ -332,9 +330,6 @@ public class Control extends Application {
 		startQuiz.setDisable(false);
 		tally.setText("");
 		showWord.setText("Start a new quiz");
-		
-		
-		// If the file is not the default file, and a level is not selected it prompts user to select a level.
 		if (reviewCombo.getValue() == null  && quizfile.getName().equals("NZCER-spelling-lists.txt")){
 			revtext.setText("Select a level to review from");
 		} else {
@@ -344,22 +339,20 @@ public class Control extends Application {
 				if (letternum == 12) {
 					letternum--;
 				}
-				reviewfile = new File("review/.reviewlevel" + letternum + ".txt");
+				reviewfile = new File("reviewfiles/.reviewlevel" + letternum + ".txt");
 			}
 			else{
-				reviewfile = new File("review/.generalreview.txt");
+				reviewfile = new File("reviewfiles/.generalreview.txt");
 			}
 
 			rq = new ReviewQuiz(reviewfile, reviewInput, letternum, revtally);
 			rq.giveComboNShow(reviewCombo, revtext);
 			rq.setVoice(voice);
-			rq.setStart(review);
-			review.setDisable(true);
 			ArrayList<String> revwordsallforlevel = new ArrayList<String>();
 			revwordsallforlevel = rq.getreviewwordsforlevel(letternum);
 			
 			
-			if (rq == null || revwordsallforlevel == null || reviewfile.length() == 1 || revwordsallforlevel.isEmpty()) {
+			if (rq == null || revwordsallforlevel.isEmpty() || reviewfile.length() == 1) {
 				revtext.setText("No review words for this level");
 				rq = null;
 			} else {
