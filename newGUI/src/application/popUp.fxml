@@ -4,8 +4,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="598.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Label layoutX="23.0" layoutY="22.0" prefHeight="27.0" prefWidth="544.0" text="Welcome to the VOXSPELL Help menu. " textAlignment="CENTER" wrapText="true">
          <font>
@@ -30,19 +29,14 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="19.0" layoutY="295.0" prefHeight="37.0" prefWidth="568.0" text="To choose a skin, select the colour you want to choose from the drop down menu that is in the &quot;Options&quot; section and press the &quot;Select Skin&quot; button" wrapText="true" />
+      <Label layoutX="19.0" layoutY="295.0" prefHeight="37.0" prefWidth="568.0" text="To choose a skin, select the colour you want to choose from the drop down menu that is in the &quot;Options&quot; section" wrapText="true" />
       <Label layoutX="19.0" layoutY="332.0" prefHeight="61.0" prefWidth="568.0" text="To choose a file, click on the &quot;Select Custom list&quot; button, there are some themed lists under the wordlists folder when you first open the file-chooser, you can also add in your own custom files.( Refer to user manual to see how to format the files )" wrapText="true" />
-      <Label layoutX="18.0" layoutY="395.0" text="Voices">
+      <Label layoutX="18.0" layoutY="401.0" text="Voices">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="19.0" layoutY="416.0" prefHeight="77.0" prefWidth="568.0" text="To change the voice click on the &quot;Voices&quot; drop down menu and select the voices you want, currently there are two voices to choose from the default voice, and a New Zealand themed voice, click the voice you want from the drop-down menu and press the &quot;Select Voice button&quot;. Start a new quiz for effects to be set." wrapText="true" />
-      <Label layoutX="19.0" layoutY="493.0" text="Clearing Statistics">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
-      <Label layoutX="17.0" layoutY="515.0" prefHeight="45.0" prefWidth="544.0" text="Clearing the statistics will result in all of the statistical-related files being erased and all of the review related files, also being erased." wrapText="true" />
+      <Label layoutX="19.0" layoutY="422.0" prefHeight="72.0" prefWidth="568.0" text="Currently, you are able to select from two voices the first being the default voice, and the second being a New Zealand themed voice, you can find these voices under the &quot;Select Voice&quot; dropdown menu and click the button below to confirm your settings. Start a new quiz for the effects." wrapText="true" />
+      <Label layoutX="19.0" layoutY="516.0" prefHeight="30.0" prefWidth="516.0" text="For additional help, please refer to the user manual." wrapText="true" />
    </children>
 </Pane>

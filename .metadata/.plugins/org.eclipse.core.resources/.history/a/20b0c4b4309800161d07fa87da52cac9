@@ -191,9 +191,6 @@ public class Control extends Application {
 		caption.setVisible(false);
 	}
 	
-	/*
-	 * Shows a pop-up of the help menu
-	 */
 	@FXML
 	void getHelp(ActionEvent event) throws IOException {
 		 stage = new Stage();
@@ -205,13 +202,6 @@ public class Control extends Application {
 		stage.setResizable(false);
 		stage.show();
 	}
-	
-	
-	
-
-	
-	
-	
 	
 	/*
 	 * This method repeats the word that is the current word in the test.

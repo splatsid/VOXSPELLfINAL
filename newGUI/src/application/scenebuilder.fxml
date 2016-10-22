@@ -23,7 +23,7 @@
         <AnchorPane>
                <children>
                   <ComboBox id="spellingcombo" fx:id="spellingcombo" layoutX="208.0" layoutY="14.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="31.0" prefWidth="184.0" promptText="Select Level" AnchorPane.bottomAnchor="322.0" AnchorPane.leftAnchor="208.0" AnchorPane.rightAnchor="208.0" AnchorPane.topAnchor="14.0" />
-                  <Button fx:id="startQuiz" layoutX="208.0" layoutY="57.0" mnemonicParsing="false" onAction="#startQuiz" prefHeight="24.0" prefWidth="183.0" text="Start Quiz" AnchorPane.leftAnchor="208.0" AnchorPane.rightAnchor="209.0" AnchorPane.topAnchor="57.0" />
+                  <Button fx:id="startQuiz" layoutX="208.0" layoutY="57.0" mnemonicParsing="false" onAction="#startQuiz" prefHeight="31.0" prefWidth="184.0" text="Start Quiz" AnchorPane.leftAnchor="208.0" AnchorPane.rightAnchor="209.0" AnchorPane.topAnchor="57.0" />
                   <VBox alignment="CENTER" layoutX="4.0" layoutY="158.0">
                      <children>
                         <Text id="text" fx:id="showWord" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome to VOXSPELL. Start a quiz to begin" textAlignment="CENTER" textOrigin="CENTER" wrappingWidth="592.65625">
@@ -34,12 +34,12 @@
                         <Label fx:id="tally" text="Words correct on first try 0/0" textAlignment="CENTER" />
                      </children>
                   </VBox>
-                  <TextField fx:id="inputText" layoutY="329.0" prefHeight="37.0" prefWidth="600.0" promptText="Enter word here">
+                  <TextField fx:id="inputText" layoutX="-1.0" layoutY="330.0" prefHeight="38.0" prefWidth="600.0" promptText="Enter word here">
                      <font>
                         <Font size="19.0" />
                      </font></TextField>
-                  <Button fx:id="repeatWord" layoutX="250.0" layoutY="216.0" mnemonicParsing="false" onAction="#repeatWord" text="Repeat Word" />
-                  <ProgressIndicator fx:id="progSpell" layoutX="551.0" layoutY="6.0" progress="0.0" />
+                  <Button fx:id="repeatWord" layoutX="209.0" layoutY="214.0" mnemonicParsing="false" onAction="#repeatWord" prefHeight="31.0" prefWidth="184.0" text="Repeat Word" />
+                  <ProgressIndicator fx:id="progSpell" layoutX="540.0" layoutY="10.0" progress="0.0" />
                </children>
                <effect>
                   <Blend />
@@ -50,21 +50,21 @@
         <content>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
-                  <ComboBox id="reviewCombo" fx:id="reviewCombo" layoutX="231.0" layoutY="17.0" prefWidth="150.0" promptText="Select Level" />
-                  <Button fx:id="review" layoutX="231.0" layoutY="54.0" mnemonicParsing="false" onAction="#startReview" prefHeight="25.0" prefWidth="149.0" text="Start Review" AnchorPane.leftAnchor="231.0" AnchorPane.rightAnchor="220.0" />
+                  <ComboBox id="reviewCombo" fx:id="reviewCombo" layoutX="208.0" layoutY="14.0" prefHeight="31.0" prefWidth="184.0" promptText="Select Level" />
+                  <Button fx:id="review" layoutX="207.0" layoutY="57.0" minWidth="184.0" mnemonicParsing="false" onAction="#startReview" prefHeight="31.0" prefWidth="184.0" text="Start Review" AnchorPane.leftAnchor="207.0" AnchorPane.rightAnchor="209.0" />
                   <ProgressIndicator fx:id="progRev" layoutX="540.0" layoutY="10.0" progress="0.0" />
                   <VBox layoutX="-2.0" layoutY="162.03125" />
-                  <TextField fx:id="reviewInput" layoutY="330.0" prefHeight="39.0" prefWidth="600.0" promptText="Enter word here">
+                  <TextField fx:id="reviewInput" layoutY="330.0" prefHeight="31.0" prefWidth="600.0" promptText="Enter word here">
                      <font>
                         <Font size="20.0" />
                      </font></TextField>
-                  <Button fx:id="revRepeat" layoutX="233.0" layoutY="221.0" mnemonicParsing="false" onAction="#revRepeat" prefHeight="26.0" prefWidth="148.0" text="Repeat Word" />
-                  <Text id="text" fx:id="revtext" layoutX="4.0" layoutY="179.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Start the review process." textAlignment="CENTER" textOrigin="CENTER" wrappingWidth="600.0">
+                  <Button fx:id="revRepeat" layoutX="209.0" layoutY="214.0" mnemonicParsing="false" onAction="#revRepeat" prefHeight="31.0" prefWidth="184.0" text="Repeat Word" />
+                  <Text id="text" fx:id="revtext" layoutX="4.0" layoutY="172.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Start the review process." textAlignment="CENTER" textOrigin="CENTER" wrappingWidth="600.0">
                      <font>
                         <Font size="24.0" />
                      </font>
                   </Text>
-                  <Label fx:id="revtally" alignment="CENTER" contentDisplay="CENTER" layoutX="4.0" layoutY="193.0" prefWidth="606.0" text="Words corrected: 0/0" textAlignment="CENTER" />
+                  <Label fx:id="revtally" alignment="CENTER" contentDisplay="CENTER" layoutX="-4.0" layoutY="184.0" prefWidth="606.0" text="Words corrected: 0/0" textAlignment="CENTER" />
                </children>
             </AnchorPane>
         </content>

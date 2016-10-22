@@ -208,7 +208,11 @@ public class Control extends Application {
 	
 	
 	
-
+	@FXML
+	void onClose(){
+		stage.close();
+	}
+	
 	
 	
 	

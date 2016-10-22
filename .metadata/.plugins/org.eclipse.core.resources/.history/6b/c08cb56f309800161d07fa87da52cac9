@@ -70,8 +70,6 @@ public class Control extends Application {
 	@FXML
 	private TableColumn word,correct,faulted,failed;
 
-	private Stage stage;
-	
 	@FXML
 	private ProgressIndicator progSpell , progRev;
 
@@ -191,12 +189,9 @@ public class Control extends Application {
 		caption.setVisible(false);
 	}
 	
-	/*
-	 * Shows a pop-up of the help menu
-	 */
 	@FXML
 	void getHelp(ActionEvent event) throws IOException {
-		 stage = new Stage();
+		Stage stage = new Stage();
 		Parent root =  FXMLLoader.load(getClass().getResource("/application/popUp.fxml"));
 		Scene scene = new Scene(root,600,600);
 		stage.setTitle("VOXSPELL Help");
@@ -205,13 +200,6 @@ public class Control extends Application {
 		stage.setResizable(false);
 		stage.show();
 	}
-	
-	
-	
-
-	
-	
-	
 	
 	/*
 	 * This method repeats the word that is the current word in the test.
