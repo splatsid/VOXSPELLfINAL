@@ -18,7 +18,7 @@
 
 <TabPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Control">
   <tabs>
-    <Tab id="spelling" fx:id="spellingquiz" text="Spelling Quiz">
+    <Tab id="spelling" fx:id="spellingquiz" closable="false" text="Spelling Quiz">
       <content>
         <AnchorPane>
                <children>
@@ -46,7 +46,7 @@
                </effect></AnchorPane>
       </content>
     </Tab>
-      <Tab id="review" fx:id="reviewQuiz" text="Start Review Quiz">
+      <Tab id="review" fx:id="reviewQuiz" closable="false" text="Start Review Quiz">
         <content>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
@@ -69,14 +69,14 @@
             </AnchorPane>
         </content>
       </Tab>
-      <Tab id="stats" fx:id="statistics" text="Statistics">
+      <Tab id="stats" fx:id="statistics" closable="false" text="Statistics">
         <content>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
                   <Button fx:id="calcStats" layoutX="15.0" layoutY="169.0" mnemonicParsing="false" onAction="#calculateStats" prefHeight="30.0" prefWidth="148.0" text="Calculate Stats" />
                   <PieChart fx:id="stats" blendMode="SRC_ATOP" layoutX="189.0" layoutY="43.0" prefHeight="300.0" prefWidth="391.0" style="-fx-background-color: silver;" />
                   <ComboBox fx:id="statsViews" layoutX="14.0" layoutY="202.0" prefWidth="150.0" promptText="Stats Views" />
-                  <Text id="text" fx:id="statstext" layoutX="244.0" layoutY="29.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Press the Button for statistics." textAlignment="CENTER" wrappingWidth="277.7294921875">
+                  <Text id="text" fx:id="statstext" layoutX="246.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Press the Button for statistics." textAlignment="CENTER" wrappingWidth="277.7294921875">
                      <font>
                         <Font size="17.0" />
                      </font>
@@ -93,35 +93,35 @@
                </children></AnchorPane>
         </content>
       </Tab>
-    <Tab id="main" fx:id="mainmenu" text="Settings">
+    <Tab id="main" fx:id="mainmenu" closable="false" text="Settings">
       <content>
         <AnchorPane minHeight="0.0" minWidth="0.0" opacity="0.76" prefHeight="180.0" prefWidth="200.0">
                <children>
-                  <ComboBox id="optionsCombo" fx:id="optionsCombo" layoutX="226.0" layoutY="219.0" prefWidth="150.0" promptText="Voices" />
-                  <Button layoutX="225.0" layoutY="253.0" mnemonicParsing="false" onAction="#changeVoice" prefHeight="22.0" prefWidth="152.0" text="Select Voice" AnchorPane.leftAnchor="225.0" AnchorPane.rightAnchor="223.0" />
-                  <Text id="text" fontSmoothingType="LCD" layoutX="131.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Configurations" textAlignment="CENTER" textOrigin="CENTER" wrappingWidth="342.3779296875">
+                  <ComboBox id="optionsCombo" fx:id="optionsCombo" layoutX="228.0" layoutY="210.0" prefHeight="30.0" prefWidth="152.0" promptText="Voices" AnchorPane.leftAnchor="227.0" AnchorPane.rightAnchor="221.0" />
+                  <Button layoutX="228.0" layoutY="243.0" mnemonicParsing="false" onAction="#changeVoice" prefHeight="30.0" prefWidth="152.0" text="Select Voice" AnchorPane.leftAnchor="227.0" AnchorPane.rightAnchor="221.0" />
+                  <Text id="text" fontSmoothingType="LCD" layoutX="132.0" layoutY="29.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Configurations" textAlignment="CENTER" textOrigin="CENTER" wrappingWidth="342.3779296875">
                      <font>
                         <Font size="30.0" />
                      </font>
                   </Text>
-                  <Text id="text" layoutX="174.0" layoutY="76.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select a spelling theme" textOrigin="CENTER">
+                  <Text id="text" layoutX="182.0" layoutY="72.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select a spelling theme" textOrigin="CENTER">
                      <font>
                         <Font size="21.0" />
                      </font>
                   </Text>
-                  <ComboBox id="themeCombo" fx:id="themeCombo" layoutX="228.0" layoutY="90.0" prefWidth="150.0" promptText="Skins" />
-                  <Button layoutX="229.0" layoutY="128.0" mnemonicParsing="false" onAction="#changeBackGround" prefHeight="22.0" prefWidth="152.0" text="Select Skin" textAlignment="JUSTIFY" wrapText="true" />
+                  <ComboBox id="themeCombo" fx:id="themeCombo" layoutX="228.0" layoutY="88.0" prefHeight="32.0" prefWidth="149.0" promptText="Skins" AnchorPane.leftAnchor="227.0" />
+                  <Button layoutX="228.0" layoutY="123.0" maxWidth="20.0" minWidth="0.0" mnemonicParsing="false" onAction="#changeBackGround" prefHeight="30.0" prefWidth="156.0" text="Select Skin" textAlignment="JUSTIFY" wrapText="true" AnchorPane.leftAnchor="227.0" AnchorPane.rightAnchor="221.0" />
                   <Text id="text" fontSmoothingType="LCD" layoutX="99.0" layoutY="306.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Current word list:" />
-                  <Text id="text" fx:id="selectedfile" layoutX="235.0" layoutY="306.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Default Spelling List" />
-                  <Button fx:id="clickok" layoutX="438.0" layoutY="287.0" mnemonicParsing="false" onAction="#chooseFile" prefHeight="8.0" prefWidth="138.0" text="Select custom list" textAlignment="JUSTIFY" underline="true" wrapText="true" />
-                  <Button layoutX="227.0" layoutY="324.0" mnemonicParsing="false" onAction="#clearStats" prefHeight="25.0" prefWidth="144.0" text="Clear Statistics" />
-                  <Text id="text" layoutX="209.0" layoutY="200.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Change the voice" textOrigin="CENTER">
+                  <Text id="text" fx:id="selectedfile" layoutX="228.0" layoutY="306.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Default Spelling List" wrappingWidth="177.3173828125" />
+                  <Button fx:id="clickok" layoutX="430.0" layoutY="286.0" mnemonicParsing="false" onAction="#chooseFile" prefHeight="30.0" prefWidth="152.0" text="Select custom list" textAlignment="JUSTIFY" wrapText="true" />
+                  <Button layoutX="228.0" layoutY="324.0" mnemonicParsing="false" onAction="#clearStats" prefHeight="30.0" prefWidth="152.0" text="Clear Statistics" AnchorPane.leftAnchor="227.0" />
+                  <Text id="text" layoutX="211.0" layoutY="195.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Change the voice" textOrigin="CENTER">
                      <font>
                         <Font size="21.0" />
                      </font>
                   </Text>
                   <Button layoutX="544.0" layoutY="3.0" mnemonicParsing="false" onAction="#getHelp" text="Help" />
-                  <Label layoutX="161.0" layoutY="161.0" text="Restart app to save skin and voice changes" />
+                  <Label layoutX="193.0" layoutY="155.0" prefHeight="26.0" prefWidth="224.0" text="Restart app to save skin changes" />
                </children>
                <effect>
                   <Blend />
