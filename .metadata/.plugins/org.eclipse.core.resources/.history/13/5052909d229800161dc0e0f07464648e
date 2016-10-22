@@ -61,7 +61,6 @@ public class ReviewQuiz extends Quiz {
 			@Override
 			public void handle(KeyEvent ke){
 				if(ke.getCode().equals(KeyCode.ENTER)){
-					// Checks to see if either there are no review words in the level or complete before it starts the review quiz.
 					if(numrevwords == 0){t.setText("No review words for this level");}else {
 					String input = _textfield.getText();
 					t.setText(input);
@@ -141,7 +140,6 @@ public class ReviewQuiz extends Quiz {
 						_textfield.clear();
 						int correct = reviewtestwords.size() - errors;
 						complete = true;
-						start.setDisable(false);
 						t.setText("Complete, start a new quiz!");
 					}
 				}
@@ -151,13 +149,10 @@ public class ReviewQuiz extends Quiz {
 	}
 
 
-	/*
-	 *  Spells word out loud after two failed attempts in the review quiz.
-	 *  Depending on what voice is chosen 
-	 */
+	// Spells word out loud after two failed attempts in the review quiz.
 	public  void spellwordoutloud(String word) throws Exception{
 		Service<Void> speech = new Service<Void>() {
-			
+
 			@Override
 			protected Task<Void> createTask() {
 				return new Task<Void>() {

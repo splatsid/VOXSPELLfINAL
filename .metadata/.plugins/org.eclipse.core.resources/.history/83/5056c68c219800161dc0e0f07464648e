@@ -15,20 +15,13 @@ import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 
 public class ReadNWrite {
-	/*
-	 * This class' responsibilities are to be able to read and write to every file that is associated with a quiz, and the application
-	 *
-	 */
-	
 	private File f;
-	/*
-	 * Constructor for the ReadNWrite class
-	 */
+
 	public ReadNWrite(File file) {
 		this.f = file;
 	}
 
-	//Get all the possible words from a particular level this is for the default wordlist.
+	//Get all the possible words from a particular level.
 	public ArrayList<String> chooselevelwordlist(String level) {
 		ArrayList<String> wordlist = new ArrayList<String>();
 		if (level.equals("%Level 1")) {
@@ -84,7 +77,6 @@ public class ReadNWrite {
 		}
 	}
 	
-	// Reads a custom wordlist.
 	public ArrayList<String> readCustomWords(){
 		Scanner input = new Scanner(System.in);
 		ArrayList<String> words = new ArrayList<String>();
@@ -108,9 +100,6 @@ public class ReadNWrite {
 		}		
 		return chosenWords;
 	}
-	
-	
-	
 
 	//Choose words for a spelling/review quiz via ArrayList position numbers.
 	public ArrayList<Integer> choosewords(ArrayList<String> wordlist) {
@@ -243,9 +232,6 @@ public class ReadNWrite {
 			e.printStackTrace();
 		}
 	}
-	
-	
-	
 
 	//Check if a file is empty.
 	public boolean fileisempty() {
@@ -309,8 +295,6 @@ public class ReadNWrite {
 
 		
 	}
-	
-	// Gets the current file that is set.
 	public static String getFile() throws FileNotFoundException{
 		Scanner scan = new Scanner(new File("wordlists/currentList"));
 		String f = scan.nextLine();
@@ -318,7 +302,7 @@ public class ReadNWrite {
 		return f;
 	}
 	
-	//Gets the current skin that is set.
+	
 	public static String getSkin() throws FileNotFoundException{
 		Scanner scan = new Scanner(new File("skins/currentSkin"));
 		String css = scan.nextLine();

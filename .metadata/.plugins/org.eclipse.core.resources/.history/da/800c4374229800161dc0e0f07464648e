@@ -61,7 +61,6 @@ public class ReviewQuiz extends Quiz {
 			@Override
 			public void handle(KeyEvent ke){
 				if(ke.getCode().equals(KeyCode.ENTER)){
-					// Checks to see if either there are no review words in the level or complete before it starts the review quiz.
 					if(numrevwords == 0){t.setText("No review words for this level");}else {
 					String input = _textfield.getText();
 					t.setText(input);
@@ -91,7 +90,6 @@ public class ReviewQuiz extends Quiz {
 
 					}else{
 						try {
-							// If the word is correct, remove it from the review list
 							correctness = checkCorrectness(input,currentWord);		
 							if(currError == 0){			
 								if(correctness){
@@ -105,19 +103,17 @@ public class ReviewQuiz extends Quiz {
 							}else{			
 								if(correctness){
 									currError = 0;	
-									//If the word is faulted, but correct then remove the word from the review list and add it to faulted words.
 									Stats.addtoFaulted(currentWord);
 									ReadNWrite rnw = new ReadNWrite(f);			
 									rnw.removeWordFromFile(currentWord);								
 									currentprogresstally = count - errors;
 									tally.setText("Current Tally correct on first go: " + currentprogresstally + "/" + count);
-								}else{// If the word is incorrect again, then add it to failed statistic and leave it in the current review list.
+								}else{
 									tally.setText("Current Tally correct on first go: " + currentprogresstally + "/" + count);
 									currError = 0;
 									try {
 										Stats.addtoFailed(currentWord);
 										needtospellout = true;
-										// Spells the word out loud via festival.
 										spellwordoutloud(currentWord);
 									} catch (IOException e1) {
 										// TODO Auto-generated catch block
@@ -141,7 +137,6 @@ public class ReviewQuiz extends Quiz {
 						_textfield.clear();
 						int correct = reviewtestwords.size() - errors;
 						complete = true;
-						start.setDisable(false);
 						t.setText("Complete, start a new quiz!");
 					}
 				}
@@ -151,13 +146,10 @@ public class ReviewQuiz extends Quiz {
 	}
 
 
-	/*
-	 *  Spells word out loud after two failed attempts in the review quiz.
-	 *  Depending on what voice is chosen 
-	 */
+	// Spells word out loud after two failed attempts in the review quiz.
 	public  void spellwordoutloud(String word) throws Exception{
 		Service<Void> speech = new Service<Void>() {
-			
+
 			@Override
 			protected Task<Void> createTask() {
 				return new Task<Void>() {

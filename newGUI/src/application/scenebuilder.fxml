@@ -58,7 +58,7 @@
                      <font>
                         <Font size="20.0" />
                      </font></TextField>
-                  <Button fx:id="revRepeat" layoutX="255.0" layoutY="220.0" mnemonicParsing="false" onAction="#revRepeat" prefHeight="20.0" prefWidth="103.0" text="Repeat Word" />
+                  <Button fx:id="revRepeat" layoutX="233.0" layoutY="221.0" mnemonicParsing="false" onAction="#revRepeat" prefHeight="26.0" prefWidth="148.0" text="Repeat Word" />
                   <Text id="text" fx:id="revtext" layoutX="4.0" layoutY="179.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Start the review process." textAlignment="CENTER" textOrigin="CENTER" wrappingWidth="600.0">
                      <font>
                         <Font size="24.0" />
@@ -109,8 +109,8 @@
                         <Font size="21.0" />
                      </font>
                   </Text>
-                  <ComboBox id="themeCombo" fx:id="themeCombo" layoutX="228.0" layoutY="103.0" prefWidth="150.0" promptText="Skins" />
-                  <Button layoutX="228.0" layoutY="138.0" mnemonicParsing="false" onAction="#changeBackGround" prefHeight="22.0" prefWidth="152.0" text="Select Skin" textAlignment="JUSTIFY" wrapText="true" />
+                  <ComboBox id="themeCombo" fx:id="themeCombo" layoutX="228.0" layoutY="90.0" prefWidth="150.0" promptText="Skins" />
+                  <Button layoutX="229.0" layoutY="128.0" mnemonicParsing="false" onAction="#changeBackGround" prefHeight="22.0" prefWidth="152.0" text="Select Skin" textAlignment="JUSTIFY" wrapText="true" />
                   <Text id="text" fontSmoothingType="LCD" layoutX="99.0" layoutY="306.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Current word list:" />
                   <Text id="text" fx:id="selectedfile" layoutX="235.0" layoutY="306.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Default Spelling List" />
                   <Button fx:id="clickok" layoutX="438.0" layoutY="287.0" mnemonicParsing="false" onAction="#chooseFile" prefHeight="8.0" prefWidth="138.0" text="Select custom list" textAlignment="JUSTIFY" underline="true" wrapText="true" />
@@ -121,7 +121,7 @@
                      </font>
                   </Text>
                   <Button layoutX="544.0" layoutY="3.0" mnemonicParsing="false" onAction="#getHelp" text="Help" />
-                  <Label layoutX="189.0" layoutY="170.0" text="Restart app to save skin changes" />
+                  <Label layoutX="161.0" layoutY="161.0" text="Restart app to save skin and voice changes" />
                </children>
                <effect>
                   <Blend />

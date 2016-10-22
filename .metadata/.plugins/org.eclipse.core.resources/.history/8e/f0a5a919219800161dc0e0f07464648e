@@ -29,11 +29,16 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import rewardsNStats.MovieScene;
 import rewardsNStats.Stats;
 
 public abstract class Quiz {
-	private Stage movieStage;
+	/*
+	 * This is an abstract class that represents a quiz in general, it is there for future extension in mind if review and regular quiz 
+	 * want to have distinct features about them, and other things as such.
+	 * It's responsibilities are to be able to be able to conduct a 10 word quiz and distinguish between correct and incorrect input and output
+	 * and also be able to write to the statistics files.
+	 */
+	
 	protected int count = 0;
 	protected Integer errors;
 	protected Integer currError;
@@ -55,7 +60,9 @@ public abstract class Quiz {
 	protected Button start;
 	protected ProgressIndicator p;
 	protected boolean complete = false;
-
+	
+	
+	//Constructor for the Quiz class.
 	public Quiz(File f, TextField tf, Integer level,Label tallylabel) {
 		this.file = f;
 		this.f = f;
@@ -70,7 +77,9 @@ public abstract class Quiz {
 		this.level = level;
 	}
 
-	// Says speech.
+	
+	
+	// Says speech inside a background thread, can change on voices depending on what voice was set.
 	public void sayText(String text) throws Exception {
 		ReadNWrite fest = new ReadNWrite(new File("changefestivalvoice.scm"));
 		Service<Void> speech = new Service<Void>() {
@@ -80,6 +89,7 @@ public abstract class Quiz {
 				return new Task<Void>() {
 					protected Void call() throws Exception {
 						if(voice.equals("kal_diphone")){
+						//Pauses before it says word so that words don't overlap.
 						Thread.sleep(1500);
 						String toText;
 						if(text.contains("'")){
@@ -98,7 +108,7 @@ public abstract class Quiz {
 						} catch (IOException e) {
 							e.getMessage();
 						}
-						}else {
+						}else { // If the voice is not kali diphone, then it uses a processbuilder to run an scm file.
 							fest.changevoice(voice, text);
 							ProcessBuilder b = new ProcessBuilder("bash", "-c", "festival -b changefestivalvoice.scm");
 							try {
@@ -114,12 +124,12 @@ public abstract class Quiz {
 
 		};
 		speech.restart();
-		_textfield.disableProperty().bind(speech.runningProperty());
-		_textfield.requestFocus();
 		
+		//While it is running the textfield is disabled.
+		_textfield.disableProperty().bind(speech.runningProperty());
 	}
 
-	// Reads words
+	// Uses the ReadNWrite class to load words and then read them
 	public void loadWords(String level) {
 		if(file.getName().equals("NZCER-spelling-lists.txt")){
 		ReadNWrite wordlist = new ReadNWrite(file);
@@ -153,7 +163,6 @@ public abstract class Quiz {
 			text[2] = "echo Incorrect, try again|festival --tts";
 			errors++;
 			isRight = false;
-			this.sayText(expected);
 		} else if (!(actual.equals(expected)) && currError == 1) {
 			text[0] = "bash";
 			text[1] = "-c";
@@ -168,7 +177,7 @@ public abstract class Quiz {
 			isRight = true;
 		}
 
-
+		// Background thread so that it reads out the voices depending on 
 		Service<Void> speech = new Service<Void>() {
 
 			@Override
@@ -217,7 +226,11 @@ public abstract class Quiz {
 		return this.errors;
 	}
 
-	//The spelling quiz implementation throughout the course of the quiz.
+	/*
+	 * The spelling quiz implementation throughout the course of the quiz, the textfield acts as a controller for the quiz.
+	 * When the quiz is started then it reads input accordingly, if not then the textfield does nothing.
+	 */
+
 	public void CreateActionListener() {
 
 		_textfield.setOnKeyPressed(new EventHandler<KeyEvent>() {
@@ -225,19 +238,22 @@ public abstract class Quiz {
 			@Override
 			public void handle(KeyEvent ke) {
 				if (ke.getCode().equals(KeyCode.ENTER)) {
-
+					
 					String input = _textfield.getText();
-					if (input.isEmpty()) {
+					t.setText(input);
+					if (input.isEmpty() && complete) {
 						try {
-							sayText("Please input a word");
+							t.setText("Start a new quiz");
 						} catch (Exception e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 
-					} else if (complete){
+					} else if (complete){t.setText("Start a new quiz");}
+					else if (input.isEmpty()){
 						try {
-							t.setText("Start a new quiz");
+							sayText("Please input a word");
+							t.setText("Please input a word");
 						} catch (Exception e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -266,10 +282,9 @@ public abstract class Quiz {
 									currentprogresstally = count - errors;
 									tally.setText("Current Tally correct on first go: " + currentprogresstally + "/" + count);
 
-								} else {
+								} else { // If the word is wrong on the second try, then it is written to a review file and is marked incorrect.
 									currError = 0;
 									Stats.addtoFailed(currentWord);
-									System.out.println(f);
 									if(f.getName().equals("NZCER-spelling-lists.txt")){
 									file = new File("reviewfiles/.reviewlevel" + level + ".txt"); // is
 									currentprogresstally = count - errors;
@@ -292,13 +307,15 @@ public abstract class Quiz {
 								startspellingtest(thetestwords);
 							} else { // If there's no next words create a pop up depending on how many are correct.											
 								_textfield.clear();
-								tally.setText("Current Tally correct on first go: ");
 								
 								int correct = 10 - errors;
 								start.setDisable(false);
 								count = 0;
 								complete = true;
-								popupendoflevel(correct);
+								if(correct == 10){
+									sayText("Congratulations, you got ten correct.");
+								}else
+								sayText("Congratulations, you got "+ correct + "correct.");
 								return;
 							}
 
@@ -320,8 +337,10 @@ public abstract class Quiz {
 		try {
 			if (currentWord.contains("'")) {
 				sayText(currentWord + "with an apostrophe");
+				t.setText("Has an apostrophe");
 			} else if (Character.isUpperCase(currentWord.charAt(0))) {
-				sayText(currentWord + "." + " Has a capital letter");
+				sayText(currentWord) ;
+				t.setText("Has a capital letter");
 			} else {
 				sayText(currentWord);
 			}
@@ -331,86 +350,33 @@ public abstract class Quiz {
 		}
 	}
 
-	//Creates a pop up at the end of a level. Depending on how many were correct the user has the chance to watch a movie.
-	public void popupendoflevel(int numcorrect) {
-		Stage popupstage = new Stage();
-		Button gobackmainmenu;
-		Button watchmovie = null;
-		Label label;
-		Scene scene;
-		BorderPane bp = new BorderPane();
-		Pane buttons = new FlowPane();
-		gobackmainmenu = new Button("Continue");
-		VBox controls = new VBox(10);
-		controls.setAlignment(Pos.CENTER);
-
-		if (numcorrect >= 9 || numcorrect >= thetestwords.size() -1) { // MOVIE POP UP
-			watchmovie = new Button("Watch Reward Video");
-			label = new Label(
-					"Congratulations you got " + numcorrect + " correct. \n This means you can watch a video!");
-			controls.getChildren().addAll(gobackmainmenu, watchmovie, label);
-			bp.setCenter(controls);
-			scene = new Scene(bp, 600, 500);
-
-watchmovie.setOnAction(new EventHandler<ActionEvent>() {
-
-	@Override
-	public void handle(ActionEvent arg0) {
-		if(movieStage == null){
-		movieStage = new Stage();
-		Scene moviescene = new Scene(buttons);
-		MovieScene movie = new MovieScene(movieStage, moviescene);
-		moviescene = movie.moviescene();
-		movieStage.setScene(moviescene);
-		movieStage.show();
-		}else {
-			movieStage.close();
-			movieStage.show();
-		}
-		
-	}
-
-});
-
-		} else {
-			label = new Label("Congratulations you got " + numcorrect + " correct.");
-			controls.getChildren().addAll(gobackmainmenu, label);
-			bp.setCenter(controls);
-			scene = new Scene(bp, 600, 500);
-		}
-
-		gobackmainmenu.setOnAction(new EventHandler<ActionEvent>() {
-
-			@Override
-			// When new quiz is pressed the words are loaded in and the first
-			// word is said
-			public void handle(ActionEvent arg0) {
-				popupstage.close();
-			}
-
-		});
-
-		popupstage.setScene(scene);
-		popupstage.show();
-	}
-
+	//Returns the current word
 	public String currentWord() {
 		return this.currentWord;
 	}
 
-	public void giveComboNShow(ComboBox c, Text t) {
+	//Takes control of textfields and comboboxes.
+	public void giveComboNShow(ComboBox<String> c, Text t) {
 		this.x = c;
 		this.t = t;
 	}
-
+	
+	/*
+	 * Returns the number of correct words
+	 */
 	public String numbercorrect() {
 		return String.valueOf(getCount() - errors);
 	}
-	
+	/*
+	 * Able to set the voice with this method
+	 */
 	public void setVoice(String voice){
 		this.voice = voice;
 	}
 	
+	/*
+	 * shows progress.
+	 */
 	public void setProg(ProgressIndicator prog){
 		this.p = prog;
 	}

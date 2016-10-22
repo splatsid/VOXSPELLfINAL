@@ -16,10 +16,9 @@ import javafx.scene.text.Text;
  * This class is an extension of the quiz class for the purposes of a new quiz. This child class is there to represent the New Quiz type.
  */
 public class NewQuiz extends Quiz {
-	
+
 	protected TextField _textfield;
 	protected boolean correctness;
-	//Constructor for the new quiz.
 	public NewQuiz(File f,TextField tf, Integer level, Label tally) {
 		super(f, tf,level, tally);
 		_textfield=tf;
