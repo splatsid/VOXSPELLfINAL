@@ -5,22 +5,20 @@ package application;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.URL;
-import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.ResourceBundle;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -29,21 +27,11 @@ import javafx.scene.chart.PieChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
 import javafx.scene.control.ProgressIndicator;
-import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundImage;
-import javafx.scene.layout.BackgroundPosition;
-import javafx.scene.layout.BackgroundRepeat;
-import javafx.scene.layout.BackgroundSize;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -54,153 +42,128 @@ import quiz.ReviewQuiz;
 import rewardsNStats.Stats;
 import rewardsNStats.Word;
 
-public class Control {
-
-	@FXML // ResourceBundle that was given to the FXMLLoader
-	private ResourceBundle resources;
-	@FXML
-	private Text statstext, caption;
-
+public class Control extends Application {
+/*
+ * This class is the control class for the the application, as the application has used MVC Principles in development.
+ * This class has most of the methods and fields that are used when an action is performed on a button text field etc.
+ * Developed by Sid Parthasarathy, and with help from Sejal Patel.
+ */
+	
+	
+	
+	/*
+	 * The fields for all of the FXML classes that are loaded into the application.
+	 */
+	
 	@FXML
 	private Button repeatWord, revRepeat,startQuiz,review,calcStats ;
 	@FXML
 	private Label revtally;
 
 	@FXML
-	private TableView statslist = new TableView<Word>();
+	private TableView<Word> statslist = new TableView<Word>();
 
 	@FXML
 	private ComboBox<String> statsViews, optionsCombo, reviewCombo, themeCombo, spellingcombo;
 	
+	@SuppressWarnings("rawtypes")
 	@FXML
 	private TableColumn word,correct,faulted,failed;
 
-
 	@FXML
-	private ProgressIndicator progSpell = new ProgressIndicator(0);
-	@FXML
-	private ProgressIndicator progRev = new ProgressIndicator(0);
-
-	@FXML
-	private Tab mainmenu, spellingquiz,reviewQuiz,statistics,options;
+	private ProgressIndicator progSpell , progRev;
 
 	@FXML
 	private TextField inputText, reviewInput;
 
-
-	private Quiz quiz;
-	private ReviewQuiz rq;
-	private String voice = "kal_diphone";
-	private File file = new File("NZCER-spelling-lists.txt");
 	@FXML // URL location of the FXML file that was given to the FXMLLoader
 	private URL location = Control.class.getResource("scenebuilderfxml");
 
 	@FXML
 	private PieChart stats;
 
-	private ArrayList<String> quizwords;
 	@FXML
 	private Label tally;
 
 	@FXML
-	private Text selectedfile,statsText, revtext, showWord;
+	private Text selectedfile, revtext, showWord ,statstext, caption;
+	
+	/*
+	 * Regular fields that are loaded into the program
+	 */
+	
+	private Quiz quiz;
+	private ReviewQuiz rq;
+	private String voice = "kal_diphone";
+	private File quizfile, reviewfile;
+	private ArrayList<String> quizwords;
+	
+	
+	/*
+	 * Methods that are used when an action is performed on a program etc.
+	 */
+	
+	
+	private void clearReview(){
+		String path = System.getProperty("user.dir") + "/review/.clearreview";
 
-
-
-	@FXML
-	void changeBackGround(ActionEvent event) {
-		if (themeCombo.getValue().equals("City")) {
-
+		try {
+			Process p = Runtime.getRuntime().exec(path);
+		
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+			System.out.println(e1.getMessage());
 		}
 
 	}
+	
+	/*
+	 * This method controls the ThemeCombo and changeBackground elements, and it's purpose is for the user to be able to change skins 
+	 */
+	@FXML
+	void changeBackGround(ActionEvent event) throws IOException {
+		if(themeCombo.getValue()!= null){ // If a skin value is selected, change the skin otherwise do nothing
+		PrintWriter print = new PrintWriter(new FileWriter(new File("skins/currentSkin")));
+		print.close();
+		}
+		ReadNWrite r = new ReadNWrite(new File("skins/currentSkin"));
+		if(themeCombo.getValue() == null){
+			//do nothing
+			
+		}else if (themeCombo.getValue().equals("Blue")) {
+			r.writeToFile("lightblue.css");
+		}else if (themeCombo.getValue().equals("Orange")){
+			r.writeToFile("darkorange.css");
+		}else if(themeCombo.getValue().equals("Gold")){
+			r.writeToFile("gold.css");
+		}else if(themeCombo.getValue().equals("White")){
+			r.writeToFile("application.css");
+		}else if(themeCombo.getValue().equals("Grey")){
+			r.writeToFile("grey.css");
+		}
+
+	}
+	
+	
+	
+	/*
+	 * This method is used to calculate statistics for the application depending on what combo-box value is selected
+	 */
 
 	@FXML
 	void calculateStats(ActionEvent event) throws FileNotFoundException, ClassNotFoundException, IOException {
 	 if( statsViews.getValue() == null || statsViews.getValue().equals("Percentages") ){
-		 		statstext.setText("Graph view");
-				int a = Stats.getCorrectSize();
-				int b = Stats.getFaultedSize();
-				int c = Stats.getFailedSize();
-			statslist.setVisible(false);
-			stats.setVisible(true);
-			if(a != 0 | b != 0 | c !=0 ){
-			ObservableList<PieChart.Data> piechartData = FXCollections.observableArrayList(
-					new PieChart.Data("Passed", (a)), new PieChart.Data("Faulted", b),
-					new PieChart.Data("Failed", c));
-			stats.setData(piechartData);
-			stats.setTitle("Spelling Quiz Statistics");
-			caption.setVisible(true);
-			caption.setText("Passed: "+ Math.round((float)((float)a/((float)a +(float) b + (float)c) * 100)) + "% Faulted: "+ b/(a+c) + "% Failed: " + c/(a + b) + "%");
-			
-			
-		} else {
-			stats.setVisible(false);
-			statstext.setText("No statistics yet! Complete a quiz.");
-		}
-			}else if (statsViews.getValue().equals("List")){
-				caption.setVisible(false);
-				stats.setVisible(false);
-				statslist.setVisible(true);
-				statstext.setText("List View");
-				ArrayList<String> done = new ArrayList<String>();
-				ArrayList<String> outp = new ArrayList<String>();
-				ArrayList<String> a = Stats.getCorrectWords();
-				ArrayList<String> b = Stats.getFaultedWords();
-				ArrayList<String> c = Stats.getFailedWords();
-				int correct  = 0;
-				int faulted = 0;
-				int failed = 0;
-				
-				this.word.setCellValueFactory(
-						new PropertyValueFactory<Word,String>("word"));
-				this.correct.setCellValueFactory(new PropertyValueFactory<Word,Integer>("correct"));
-				this.faulted.setCellValueFactory(new PropertyValueFactory<Word,Integer>("faulted"));
-				this.failed.setCellValueFactory(new PropertyValueFactory<Word,Integer>("failed"));
-				 ObservableList<Word> data = FXCollections.observableArrayList();
-				
-				for(int i = 0; i < a.size(); i ++ ){
-					if(done.contains(a.get(i))){
-						continue;
-					}else {
-						done.add(a.get(i));
-						correct = Collections.frequency(a, a.get(i));
-						faulted = Collections.frequency(b, a.get(i));
-						failed = Collections.frequency(c, a.get(i));
-						data.add(new Word(a.get(i),correct,faulted,failed));
-					
-				}
-				
-			}			
-				for(int i = 0; i < b.size(); i++){
-					if(done.contains(b.get(i))){
-						continue;
-					}else {
-						done.add(b.get(i));
-						correct = Collections.frequency(a, b.get(i));
-						faulted = Collections.frequency(b, b.get(i));
-						failed = Collections.frequency(c, b.get(i));
-						data.add(new Word(b.get(i),correct,faulted,failed));
+		setStatsGraph();
+	}else if (statsViews.getValue().equals("List")){
+		setStatsList();
+		
+}
+}
 
-					}
-				}
-				
-				for(int i = 0; i < c.size(); i++){
-					if(done.contains(c.get(i))){
-						continue;
-					}else {
-						done.add(c.get(i));
-						correct = Collections.frequency(a, c.get(i));
-						faulted = Collections.frequency(b, c.get(i));
-						failed = Collections.frequency(c, c.get(i));
-						data.add(new Word(c.get(i),correct,faulted,failed));
-
-					}
-				}
-				statslist.setItems(data);
-	}
-	}
-
+	/*
+	 * This method changes the voice from the regular kal_diphone to the new zealand voice.
+	 */
 	@FXML
 	void changeVoice(ActionEvent event) {
 		if (optionsCombo.getValue() == null) {
@@ -212,11 +175,25 @@ public class Control {
 		}
 
 	}
+	
+	/*
+	 * This method clears the statistics files.
+	 */
 
 	@FXML
 	void clearStats(ActionEvent event) {
 		Stats.clearStats();
+		clearReview();
 	}
+	
+	@FXML
+	void getHelp(ActionEvent event) {
+		
+	}
+	
+	/*
+	 * This method repeats the word that is the current word in the test.
+	 */
 
 	@FXML
 	void repeatWord(ActionEvent event) {
@@ -249,11 +226,19 @@ public class Control {
 		repeatWord.disableProperty().bind(service.runningProperty());
 		service.start();
 	}
-
+	
+	
+	
+	/*
+	 * Repeats the word in review quiz.
+	 */
 	@FXML
 	void revRepeat(ActionEvent event) {
 		try {
-			if (rq != null) {
+		if(rq != null && rq.isComplete()){
+			revtext.setText("Review complete");
+		}
+		else if (rq != null) {
 				rq.sayText(rq.currentWord());
 			}
 		} catch (Exception e) {
@@ -276,28 +261,36 @@ public class Control {
 
 	}
 
+	
+	
+		/*
+		 * The button to start a quiz, checks if a value has been selected from combo box and if the file is an NZCER spelling list
+		 * If it is then there are options for level, as this is the default spelling list, otherwise the words are selected from random
+		 * inside the custom files.
+		 */
 	@FXML
 	void startQuiz(ActionEvent event) {
 		rq = null;
-		if (spellingcombo.getValue() == null && file.getName().equals("NZCER-spelling-lists.txt")) {
+		if (spellingcombo.getValue() == null && quizfile.getName().equals("NZCER-spelling-lists.txt")) {
 			showWord.setText("Choose a level");
 		} else {
 			startQuiz.setDisable(true);
-			if(file.getName().equals("NZCER-spelling-lists.txt")){
-			quiz = new NewQuiz(file, inputText, getLevel(spellingcombo.getValue()), tally);
+			if(quizfile.getName().equals("NZCER-spelling-lists.txt")){
+			quiz = new NewQuiz(quizfile, inputText, getLevel(spellingcombo.getValue()), tally);
 			quiz.loadWords(spellingcombo.getValue());
 			}else {
-				quiz = new NewQuiz(file, inputText, 0, tally);
+				quiz = new NewQuiz(quizfile, inputText, 0, tally);
 				quiz.loadWords("0");
 			}
+			quiz.giveComboNShow(spellingcombo, showWord);
+			showWord.setText("Spelling quiz started");
 			quiz.setVoice(voice);
 			quiz.setStart(startQuiz);
 			quizwords = new ArrayList<String>(quiz.giveWords());
 			quiz.setProg(progSpell);
 			try {
 				quiz.startspellingtest(quizwords);
-				quiz.giveComboNShow(spellingcombo, showWord);
-				showWord.setText("Spelling quiz started");
+				
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -310,8 +303,10 @@ public class Control {
 					return new Task<Void>() {
 						protected Void call() throws Exception {
 							while (quiz.getCount() != 10) {
-								updateProgress(quiz.getCount() + 1, 10);
+								updateProgress(quiz.getCount() , 10);
 							}
+							
+							updateProgress(quiz.getCount(),10);
 
 							return null;
 						}
@@ -325,40 +320,48 @@ public class Control {
 
 		}
 	}
-
+	
+	/*
+	 * Controls the button that is responsible for starting the review quiz 
+	 */
 	@FXML
 	void startReview(ActionEvent event) {
 		quiz = null;
-		if (reviewCombo.getValue() == null) {
+		startQuiz.setDisable(false);
+		tally.setText("");
+		showWord.setText("Start a new quiz");
+		if (reviewCombo.getValue() == null  && quizfile.getName().equals("NZCER-spelling-lists.txt")){
 			revtext.setText("Select a level to review from");
 		} else {
-			int letternum = getLevel(reviewCombo.getValue());
-			if (letternum == 12) {
-				letternum--;
+			int letternum = 0;
+			if(quizfile.getName().equals("NZCER-spelling-lists.txt")){
+				letternum = getLevel(reviewCombo.getValue());
+				if (letternum == 12) {
+					letternum--;
+				}
+				reviewfile = new File("reviewfiles/.reviewlevel" + letternum + ".txt");
 			}
-			if(file.getName().equals("NZCER-spelling-lists.txt"))
-			file = new File("reviewfiles/.reviewlevel" + letternum + ".txt");
 			else{
-				file = new File("reviewfiles/.generalreview.txt");
+				reviewfile = new File("reviewfiles/.generalreview.txt");
 			}
 
-			rq = new ReviewQuiz(file, reviewInput, letternum, revtally);
+			rq = new ReviewQuiz(reviewfile, reviewInput, letternum, revtally);
 			rq.giveComboNShow(reviewCombo, revtext);
 			rq.setVoice(voice);
 			ArrayList<String> revwordsallforlevel = new ArrayList<String>();
 			revwordsallforlevel = rq.getreviewwordsforlevel(letternum);
-			if (rq == null || revwordsallforlevel.isEmpty() || file.length() == 1) {
+			
+			
+			if (rq == null || revwordsallforlevel.isEmpty() || reviewfile.length() == 1) {
 				revtext.setText("No review words for this level");
+				rq = null;
 			} else {
 
 				if (revwordsallforlevel.get(0).equals(""))
 					revwordsallforlevel.remove(0);
-				showWord.setText("Review quiz started");
+				revtext.setText("Review quiz started");
 
-				int numrevwords = revwordsallforlevel.size();
-				ArrayList<Integer> wordnumbers = new ArrayList<Integer>();
-				ReadNWrite rnq = new ReadNWrite(file);
-				wordnumbers = rnq.choosewords(revwordsallforlevel);
+				ReadNWrite rnq = new ReadNWrite(reviewfile);
 				rq.createreviewwordlist();
 				rq.startreviewtest();
 
@@ -393,6 +396,9 @@ public class Control {
 
 
 	@FXML
+	/*
+	 * Allows the user to choose their custom text file.
+	 */
 	void chooseFile(ActionEvent event) throws IOException {
 
 		FileChooser filechooser = new FileChooser();
@@ -400,22 +406,43 @@ public class Control {
 		filechooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Text Files", "*.txt")
 
 		);
-		file = filechooser.showOpenDialog(new Stage());
-		if (file != null) {
-			selectedfile.setText(file.getName());
-			if(!file.getName().equals("NZCER-spelling-lists.txt")){
+		quizfile = filechooser.showOpenDialog(new Stage());
+		if (quizfile != null) {
+			PrintWriter print = new PrintWriter(new FileWriter(new File("wordlists/currentList")));
+			print.close();
+			ReadNWrite r = new ReadNWrite(new File("wordlists/currentList"));
+			r.writeToFile(quizfile.getAbsolutePath());
+			selectedfile.setText(quizfile.getName());
+			Stats.clearStats();
+			quiz = null;
+			startQuiz.setDisable(false);
+			clearReview();
+			//Disables combo boxes if the file is not the default file
+			if(!quizfile.getName().equals("NZCER-spelling-lists.txt")){
 			spellingcombo.setDisable(true);
 			reviewCombo.setDisable(true);
-			Stats.clearStats();
+			
+			}else {
+				//enables combo boxes if the selected file is the default files
+				spellingcombo.setDisable(false);
+				reviewCombo.setDisable(false);
+				spellingcombo.getItems().addAll("Level 1", "Level 2", "Level 3", "Level 4", "Level 5", "Level 6", "Level 7",
+						"Level 8", "Level 9", "Level 10", "Level 11");
+				reviewCombo.getItems().addAll("Level 1", "Level 2", "Level 3", "Level 4", "Level 5", "Level 6", "Level 7",
+						"Level 8", "Level 9", "Level 10", "Level 11");
+			
 			}
 		} else{
-			file = new File("NZCER-spelling-lists.txt");
-			spellingcombo.setDisable(false);
-			reviewCombo.setDisable(false);
+			
 		}
 		}
 
-	// Fetches the current level that has been selected
+	
+	
+	
+	/*
+	 *  Fetches the current level that has been selected if the file is the default file.
+	 */
 	private Integer getLevel(String level) {
 		if (level.length() == 7) {
 			return Integer.parseInt(level.substring(6));
@@ -423,18 +450,195 @@ public class Control {
 			return Integer.parseInt(level.substring(6)) + Integer.parseInt(level.substring(7));
 		}
 	}
+	
+	
+	
+	
+	
 
-	@FXML // This method is called by the FXMLLoader when initialization is
-			// complete
-	void initialize() {
+	@FXML // This method is called by the FXMLLoader when initialization is complete
+		  // It loads the combo boxes, focuses and disables certain graphs.
+	void initialize() throws FileNotFoundException {
+		try {
+			quizfile = new File(ReadNWrite.getFile());
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			System.out.println(e.getMessage());
+		}
+		//Loading combo boxes
+		if(quizfile.getName().equals("NZCER-spelling-lists.txt")){
 		spellingcombo.getItems().addAll("Level 1", "Level 2", "Level 3", "Level 4", "Level 5", "Level 6", "Level 7",
 				"Level 8", "Level 9", "Level 10", "Level 11");
-		themeCombo.getItems().addAll("Cities", "Food", "Cars", "Colours");
 		reviewCombo.getItems().addAll("Level 1", "Level 2", "Level 3", "Level 4", "Level 5", "Level 6", "Level 7",
 				"Level 8", "Level 9", "Level 10", "Level 11");
+		}else {
+			//Disabling spelling and review combo boxes if it is not the default spelling quiz.
+			spellingcombo.setDisable(true);
+			reviewCombo.setDisable(true);
+		}
+		themeCombo.getItems().addAll("Blue", "Orange", "Gold", "White", "Grey");
 		optionsCombo.getItems().addAll("Default", "NZ Voice");
 		statsViews.getItems().addAll("Percentages","List");
+		selectedfile.setText(quizfile.getName());
+		statslist.setVisible(false);
+		stats.setVisible(false);
+		
+		//Gives focus to certain text fields, etc
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run(){
+				inputText.requestFocus();
+				reviewInput.requestFocus();
+				revRepeat.setFocusTraversable(false);
+				review.setFocusTraversable(false);
+				repeatWord.setFocusTraversable(false);
+				startQuiz.setFocusTraversable(false);
+				spellingcombo.setFocusTraversable(false);
+				reviewCombo.setFocusTraversable(false);
+			}
+		});
+	
 
+		
+	}
+	
+	
+	
+	
+	
+	/*
+	 * This method sets the table for the stats list, it uses a Java FX TableView, and uses the Word class 
+	 * so that the property of Word can be bound to the table, which means that it can be sorted by 
+	 * Alphabetical order, number of passes, and number of fails.
+	 */
+	@SuppressWarnings("unchecked")
+	private void setStatsList(){
+		caption.setVisible(false);
+		stats.setVisible(false);
+		statslist.setVisible(true);
+		statstext.setText("List View");
+		ArrayList<String> done = new ArrayList<String>();
+		ArrayList<String> outp = new ArrayList<String>();
+		ArrayList<String> a = Stats.getCorrectWords();
+		ArrayList<String> b = Stats.getFaultedWords();
+		ArrayList<String> c = Stats.getFailedWords();
+		int correct  = 0;
+		int faulted = 0;
+		int failed = 0;
+		
+		
+		// Sets the properties for cells
+		this.word.setCellValueFactory(
+				new PropertyValueFactory<Word,String>("word"));
+		this.correct.setCellValueFactory(new PropertyValueFactory<Word,Integer>("correct"));
+		this.faulted.setCellValueFactory(new PropertyValueFactory<Word,Integer>("faulted"));
+		this.failed.setCellValueFactory(new PropertyValueFactory<Word,Integer>("failed"));
+		 ObservableList<Word> data = FXCollections.observableArrayList();
+				
+		 
+		//Checks each list to see if word is contained.
+		for(int i = 0; i < a.size(); i ++ ){
+			if(done.contains(a.get(i))){
+				continue;
+			}else {
+				done.add(a.get(i));
+				correct = Collections.frequency(a, a.get(i));
+				faulted = Collections.frequency(b, a.get(i));
+				failed = Collections.frequency(c, a.get(i));
+				data.add(new Word(a.get(i),correct,faulted,failed));
+			
+			}
+		
+		}			
+			for(int i = 0; i < b.size(); i++){
+				if(done.contains(b.get(i))){
+					continue;
+				}else {
+					done.add(b.get(i));
+					correct = Collections.frequency(a, b.get(i));
+					faulted = Collections.frequency(b, b.get(i));
+					failed = Collections.frequency(c, b.get(i));
+					data.add(new Word(b.get(i),correct,faulted,failed));
+
+				}
+			}
+			
+			for(int i = 0; i < c.size(); i++){
+				if(done.contains(c.get(i))){
+					continue;
+				}else {
+					done.add(c.get(i));
+					correct = Collections.frequency(a, c.get(i));
+					faulted = Collections.frequency(b, c.get(i));
+					failed = Collections.frequency(c, c.get(i));
+					data.add(new Word(c.get(i),correct,faulted,failed));
+
+				}
+			}
+	statslist.setItems(data);
+		
+	}
+	
+	
+	
+	
+	
+	
+	/*
+	 * Sets the pie graph for the statistics tab, gets the data from the Stats class and places it into an
+	 * observable arraylist, and then passes it through as data for Statistics.
+	 */
+	private void setStatsGraph() throws FileNotFoundException, ClassNotFoundException, IOException{
+		
+		statstext.setText("Graph view");
+		int passed = Stats.getCorrectSize();
+		int faulted = Stats.getFaultedSize();
+		int failed = Stats.getFailedSize();
+	statslist.setVisible(false);
+	stats.setVisible(true);
+	
+	// If any of the categories are not 0 then initialize the pie graph.
+	if(passed != 0 | faulted != 0 | failed !=0 ){
+		ObservableList<PieChart.Data> piechartData = FXCollections.observableArrayList(
+				new PieChart.Data("Passed", (passed)), new PieChart.Data("Faulted", faulted),
+				new PieChart.Data("Failed", failed));
+		stats.setData(piechartData);
+		stats.setTitle("Spelling Quiz Statistics");
+		caption.setVisible(true);
+		caption.setText("Passed: "+ Math.round((float)((float)passed/((float)passed +(float) faulted + (float)failed) * 100)) + "% Faulted: "+ Math.round((float)(float)faulted/(float)((float)passed+(float)failed  + (float)faulted)*100) + "% Failed: " + Math.round((float)(float)failed/((float)passed + (float)faulted + (float)failed)*100) + "%");
+	} else {
+		stats.setVisible(false);
+		statstext.setText("No statistics yet! Complete a quiz.");
+	}
+		
+	}
+	
+	
+	
+	
+	
+	
+	/*
+	 * This starts the application up, loads the FXML files and sets the scene, is a default method of java fx
+	 */
+	
+	@Override
+	public void start(Stage primaryStage) {
+		try {
+			Parent root =  FXMLLoader.load(getClass().getResource("/application/scenebuilder.fxml"));
+			Scene scene = new Scene(root,600,400);
+			scene.getStylesheets().add(getClass().getResource(ReadNWrite.getSkin()).toExternalForm());
+			primaryStage.setScene(scene);
+			primaryStage.setResizable(false);
+			primaryStage.show();
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void main(String[] args) {
+		launch(args);
 	}
 
 }

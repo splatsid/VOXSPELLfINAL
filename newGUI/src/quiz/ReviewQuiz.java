@@ -14,6 +14,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
+import rewardsNStats.Stats;
 
 public class ReviewQuiz extends Quiz {
 	protected ArrayList<String> reviewtestwords;
@@ -56,8 +57,10 @@ public class ReviewQuiz extends Quiz {
 			@Override
 			public void handle(KeyEvent ke){
 				if(ke.getCode().equals(KeyCode.ENTER)){
-
+					if(numrevwords == 0){t.setText("No review words for this level");}else {
 					String input = _textfield.getText();
+					t.setText(input);
+					
 					if(complete){
 						t.setText("Start a new quiz");
 					}else if(input.isEmpty()){
@@ -96,9 +99,7 @@ public class ReviewQuiz extends Quiz {
 							}else{			
 								if(correctness){
 									currError = 0;	
-									File file = new File("Faulted.txt");	
-									rnw = new ReadNWrite(file);
-									rnw.writeToFile(currentWord);
+									Stats.addtoFaulted(currentWord);
 									ReadNWrite rnw = new ReadNWrite(f);			
 									rnw.removeWordFromFile(currentWord);								
 									currentprogresstally = count - errors;
@@ -107,9 +108,7 @@ public class ReviewQuiz extends Quiz {
 									tally.setText("Current Tally correct on first go: " + currentprogresstally + "/" + count);
 									currError = 0;
 									try {
-										File file = new File("Failed.txt");	
-										rnw = new ReadNWrite(file);
-										rnw.writeToFile(currentWord);
+										Stats.addtoFailed(currentWord);
 										needtospellout = true;
 										spellwordoutloud(currentWord);
 									} catch (IOException e1) {
@@ -132,11 +131,11 @@ public class ReviewQuiz extends Quiz {
 					}else{					//If there's no next words go to pop up.
 						//Create pop up depending on how many are correct or not.
 						_textfield.clear();
-						tally.setText("Current Tally correct on first go: ");
 						int correct = reviewtestwords.size() - errors;
-						popupendoflevel(correct);
 						complete = true;
+						t.setText("Complete, start a new quiz!");
 					}
+				}
 				}
 			}
 		});

@@ -1,0 +1,17 @@
+/* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
+
+.root{
+    -fx-font-size: 9pt;
+    -fx-font-family: "Helvetica";
+    -fx-padding: 2;
+   -fx-base: yellow;
+   -fx-text-fill: black;
+}
+
+.Text{
+	-fx-text-fill:black;
+}
+
+.chart {
+	-fx-background-color: black;
+}

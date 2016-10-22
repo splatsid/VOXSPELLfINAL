@@ -142,7 +142,7 @@ public class ReadNWrite {
 			out.println(word);
 			out.close();
 		} catch (IOException e) {
-			e.getMessage();
+			System.out.println(e.getMessage());
 		}
 	}
 
@@ -292,7 +292,22 @@ public class ReadNWrite {
 			e.printStackTrace();
 		}
 		
+
 		
+	}
+	public static String getFile() throws FileNotFoundException{
+		Scanner scan = new Scanner(new File("wordlists/currentList"));
+		String f = scan.nextLine();
+		scan.close();
+		return f;
+	}
+	
+	
+	public static String getSkin() throws FileNotFoundException{
+		Scanner scan = new Scanner(new File("skins/currentSkin"));
+		String css = scan.nextLine();
+		scan.close();
+		return css;
 		
 	}
 	

@@ -65,6 +65,8 @@
 			<item value=".xml"/>
 		</list>
 	</section>
+	<section name="RenameInformationPopup">
+	</section>
 	<section name="quick_assist_proposal_size">
 	</section>
 	<section name="completion_proposal_size">

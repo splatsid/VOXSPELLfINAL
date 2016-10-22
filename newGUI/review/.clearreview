@@ -1,0 +1,7 @@
+#!/bin/bash
+
+for i in `seq 1 11`;
+do
+>review/.reviewlevel"$i".txt
+done
+>review/.generalreview.txt

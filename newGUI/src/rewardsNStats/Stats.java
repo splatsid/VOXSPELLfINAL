@@ -105,7 +105,7 @@ public static void clearStats(){
 }
 // Writes the fields to a notepad so it can be read later
 private static void writeToObject() throws FileNotFoundException, IOException{
-	ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("stats.bin"));
+	ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("stats/stats.bin"));
 	out.writeObject(correct);
 	out.writeObject(faulted);
 	out.writeObject(failed);
@@ -116,7 +116,7 @@ private static void writeToObject() throws FileNotFoundException, IOException{
 // Reads all the fields from the notepad object.
 private static void readFromObject() throws FileNotFoundException, IOException, ClassNotFoundException{
 	ArrayList<Object> stats = new ArrayList<Object>();
-	ObjectInputStream in = new ObjectInputStream(new FileInputStream("stats.bin"));
+	ObjectInputStream in = new ObjectInputStream(new FileInputStream("stats/stats.bin"));
 		for(int i = 0; i < 3; i++)
 		stats.add(in.readObject());
 
