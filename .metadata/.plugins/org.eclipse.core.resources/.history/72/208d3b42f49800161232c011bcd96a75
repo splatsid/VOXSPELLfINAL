@@ -21,7 +21,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
-import javafx.scene.control.Tab;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -64,7 +63,6 @@ public abstract class Quiz {
 	protected ProgressIndicator p;
 	protected boolean complete = false;
 	protected String text[];
-	protected Tab tab1,tab2;
 	
 	/*
 	 * Constructor for the Quiz class.
@@ -176,7 +174,7 @@ public abstract class Quiz {
 			text[0] = "bash";
 			text[1] = "-c";
 			text[2] = "echo Incorrect|festival --tts";
-			t.setText("Incorrect, the word was: " + expected);
+			t.setText("Incorrect, the word was " + expected);
 			count++;
 			isRight = false;
 		} else {
@@ -329,7 +327,6 @@ public abstract class Quiz {
 								start.setDisable(false);
 								count = 0;
 								complete = true;
-								enableTabs();
 								if(correct == 10){
 									t.setText("Quiz complete,Start a new quiz!");
 									sayText("Congratulations, you got ten correct.");
@@ -413,20 +410,6 @@ public abstract class Quiz {
 	public void setStart(Button start){
 		this.start  = start;
 	}
-	
-	
-	public void setTabs(Tab tab1, Tab tab2){
-		this.tab1 = tab1;
-		this.tab2 = tab2;
-		tab1.setDisable(true);
-		tab2.setDisable(true);
-	}
-	
-	public void enableTabs(){
-		this.tab1.setDisable(false);
-		this.tab2.setDisable(false);
-	}
-	
 
 }
 

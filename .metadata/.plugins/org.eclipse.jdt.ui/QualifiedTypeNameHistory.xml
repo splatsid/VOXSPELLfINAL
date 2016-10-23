@@ -22,7 +22,6 @@
 <fullyQualifiedTypeName name="javafx.collections.ObservableList"/>
 <fullyQualifiedTypeName name="javafx.scene.control.Button"/>
 <fullyQualifiedTypeName name="javafx.scene.layout.AnchorPane"/>
-<fullyQualifiedTypeName name="javafx.scene.control.Tab"/>
 <fullyQualifiedTypeName name="javafx.scene.layout.BackgroundImage"/>
 <fullyQualifiedTypeName name="javafx.scene.layout.BackgroundSize"/>
 <fullyQualifiedTypeName name="javafx.scene.image.Image"/>
@@ -60,4 +59,5 @@
 <fullyQualifiedTypeName name="quiz.ReadNWrite"/>
 <fullyQualifiedTypeName name="java.util.Arrays"/>
 <fullyQualifiedTypeName name="rewardsNStats.Stats"/>
+<fullyQualifiedTypeName name="javafx.scene.control.Tab"/>
 </qualifiedTypeNameHistroy>

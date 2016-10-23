@@ -125,7 +125,6 @@ public class ReviewQuiz extends Quiz {
 						_textfield.clear();
 						int correct = reviewtestwords.size() - errors;
 						complete = true;
-						enableTabs();
 						start.setDisable(false);
 						t.setText("Complete, start a new quiz!");
 					}

@@ -329,7 +329,6 @@ public abstract class Quiz {
 								start.setDisable(false);
 								count = 0;
 								complete = true;
-								enableTabs();
 								if(correct == 10){
 									t.setText("Quiz complete,Start a new quiz!");
 									sayText("Congratulations, you got ten correct.");
@@ -422,10 +421,6 @@ public abstract class Quiz {
 		tab2.setDisable(true);
 	}
 	
-	public void enableTabs(){
-		this.tab1.setDisable(false);
-		this.tab2.setDisable(false);
-	}
 	
 
 }

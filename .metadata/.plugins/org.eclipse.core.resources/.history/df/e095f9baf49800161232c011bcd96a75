@@ -64,7 +64,6 @@ public abstract class Quiz {
 	protected ProgressIndicator p;
 	protected boolean complete = false;
 	protected String text[];
-	protected Tab tab1,tab2;
 	
 	/*
 	 * Constructor for the Quiz class.
@@ -329,7 +328,6 @@ public abstract class Quiz {
 								start.setDisable(false);
 								count = 0;
 								complete = true;
-								enableTabs();
 								if(correct == 10){
 									t.setText("Quiz complete,Start a new quiz!");
 									sayText("Congratulations, you got ten correct.");
@@ -416,17 +414,8 @@ public abstract class Quiz {
 	
 	
 	public void setTabs(Tab tab1, Tab tab2){
-		this.tab1 = tab1;
-		this.tab2 = tab2;
-		tab1.setDisable(true);
-		tab2.setDisable(true);
+		
 	}
-	
-	public void enableTabs(){
-		this.tab1.setDisable(false);
-		this.tab2.setDisable(false);
-	}
-	
 
 }
 

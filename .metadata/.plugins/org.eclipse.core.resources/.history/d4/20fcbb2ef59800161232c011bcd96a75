@@ -397,7 +397,6 @@ public class Control extends Application {
 				ReadNWrite rnq = new ReadNWrite(reviewfile);
 				rq.createreviewwordlist();
 				rq.startreviewtest();
-				rq.setTabs(spellingquiz, mainmenu);
 
 			}
 		}

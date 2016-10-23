@@ -314,7 +314,6 @@ public class Control extends Application {
 			quiz.setStart(startQuiz);
 			quizwords = new ArrayList<String>(quiz.giveWords());
 			quiz.setProg(progSpell);
-			quiz.setTabs(reviewQuiz, mainmenu);
 			try {
 				quiz.startspellingtest(quizwords);
 				
@@ -397,7 +396,6 @@ public class Control extends Application {
 				ReadNWrite rnq = new ReadNWrite(reviewfile);
 				rq.createreviewwordlist();
 				rq.startreviewtest();
-				rq.setTabs(spellingquiz, mainmenu);
 
 			}
 		}

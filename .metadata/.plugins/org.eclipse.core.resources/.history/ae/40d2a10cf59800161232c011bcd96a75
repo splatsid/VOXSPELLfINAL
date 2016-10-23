@@ -329,7 +329,6 @@ public abstract class Quiz {
 								start.setDisable(false);
 								count = 0;
 								complete = true;
-								enableTabs();
 								if(correct == 10){
 									t.setText("Quiz complete,Start a new quiz!");
 									sayText("Congratulations, you got ten correct.");

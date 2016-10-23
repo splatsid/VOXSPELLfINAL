@@ -272,43 +272,6 @@ public class ReadNWrite {
 	}
 	
 	
-	// Says the text in a different voice
-	public void changevoice(String voice,String phrase){
-		
-		FileWriter fw = null;
-		try {
-			fw = new FileWriter(f.getAbsoluteFile());
-		} catch (IOException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
-		}
-		BufferedWriter bw = new BufferedWriter(fw);
-	
-		try {
-			bw.write("(voice_" + voice + ")");
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		try {
-			bw.newLine();
-			bw.write("(SayText \""+ phrase+ "\")");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		try {
-			bw.flush();
-			bw.close();
-			fw.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-
-		
-	}
 	
 	// Gets the current file that is set.
 	public static String getFile() throws FileNotFoundException{
